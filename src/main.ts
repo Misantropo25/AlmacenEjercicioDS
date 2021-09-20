@@ -12,7 +12,6 @@ if (environment.production) {
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
 
-
 //#region Bienvenida
 // Mensaje de Bienvenida
 bienvenida()

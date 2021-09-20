@@ -1,7 +1,6 @@
 //--------------SECCION DE FUNCIONES---------------//
 
 import { Almacen, Producto } from "./Class";
-
 //#region funciones
 export function agregarProductoAAlmacen(producto: Producto, almacen: Almacen, cantidad:number){
     console.log("--------------------------------------------");
