@@ -61,7 +61,37 @@ registroProductos.mostrarListaProductos();
 //#endregion
 
 
-//#region Añadir y Modificar Producto-Saldo en Almacen-Saldo Disponible
+//#region PruebasParaExposicion
+//Añadimos recursos
+// agregarProductoAAlmacen(Producto01,Almacen01,17);
+// agregarProductoAAlmacen(Producto02,Almacen01,0);
+// agregarProductoAAlmacen(Producto03,Almacen02,12);
+// agregarProductoAAlmacen(Producto04,Almacen02,-25);
+
+// Producto01.mostrarInfoProductoTotal();
+// Producto03.mostrarInfoProductoTotal();
+// Producto04.mostrarInfoProductoTotal();
+
+// Almacen01.moverProductoDeAlmacen(Almacen02,Producto01,15);
+// Almacen02.moverProductoDeAlmacen(Almacen01,Producto03,10);
+// Almacen02.moverProductoDeAlmacen(Almacen01,Producto04,12);
+
+// Producto01.mostrarInfoProductoTotal();
+// Producto03.mostrarInfoProductoTotal();
+// Producto04.mostrarInfoProductoTotal();
+
+// Almacen01.eliminarProductoDeAlmacen(Producto01);
+// agregarProductoAAlmacen(Producto01,Almacen01,3);
+
+// Producto01.mostrarInfoProductoTotal();
+
+// Almacen01.regresarExistencias(Producto01);
+
+// Producto01.mostrarInfoProductoTotal();
+//#endregion
+
+
+//#region OTRAS PRUEBAS Añadir y Modificar Producto-Saldo en Almacen-Saldo Disponible
 
 
 // Producto01.mostrarInfoProductoTotal();
@@ -94,10 +124,7 @@ registroProductos.mostrarListaProductos();
 // Producto01.mostrarInfoProductoTotal();
 // Producto02.mostrarInfoProductoTotal();
 
-//#endregion
-
-
-//#region Enviar Productos entre Almacenes-Comprobar Metodos
+//SEGUNDA PARTE DE PRUEBAS
 
 // agregarProductoAAlmacen(Producto01,Almacen01,20);
 // agregarProductoAAlmacen(Producto01,Almacen01,15);

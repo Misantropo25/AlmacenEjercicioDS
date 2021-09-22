@@ -119,7 +119,7 @@ export class Almacen{
     } 
 
     public mostrarProductos(){
-        console.log("");
+        
         console.log("--------------------------------------------");
         if(this.productos.length == 0){console.log("Productos en Almacen:               Ninguno")}
         else {
@@ -323,7 +323,7 @@ export class Producto{
 
     // Metodos para mostrar informacion
     public mostrarInfoProductoTotal(){
-        console.log();
+        console.log("");
         console.log("--------------------------------------------");
         console.log("INFORMACION TOTAL PRODUCTO ", this.nombre);
         console.log("--------------------------------------------");
@@ -331,13 +331,13 @@ export class Producto{
         console.log("Nombre:            ", this.nombre);
         console.log("Unidad:            ", this.unidad);
         console.log("SaldoTotalInicial: ", this.cantidadTotal);
-        console.log("SaldoDisponible    ", this.cantidadDeProductoDisponible());
+        console.log("SaldoDisponible:   ", this.cantidadDeProductoDisponible());
         this.mostrarNombrePertenece();
     }
     
     public mostrarInfoProductoPorAlmacen(almacen: Almacen){
         if(this.productoRegistradoEnAlmacen(almacen)){
-            console.log("");
+            
             console.log("--------------------------------------------");
             console.log("Almacen:                ",almacen.getNombreAlmacen());
             console.log("Id Producto:            ", this.idProducto);
@@ -369,27 +369,22 @@ export class Producto{
             console.log("Esta/Estuvo en los siguientes Almacenes:")
             console.log(" ");
             for (let almacenes of registroAlmacenes.getListaAlmacenes()){
-                for(let par in this.cantidadParcial){
-                    for(let eli in this.cantidadEliminada){
-                        if(parseInt(par)==almacenes.getIdAlmacen() || parseInt(eli)==almacenes.getIdAlmacen()  ){
-                            console.log("Nombre: ",almacenes.getNombreAlmacen());
-                            break;
-                        }
-                    }
-                }
+                console.log("Nombre: ",almacenes.getNombreAlmacen());
                 for(let key in this.cantidadParcial){
                     if(parseInt(key)==almacenes.getIdAlmacen()){
                         
                         console.log(" Existencias Disponibles: ",this.cantidadParcial[key]);
-                        break;
+                        
                     }
                 }
                 for(let key in this.cantidadEliminada){
                     if(parseInt(key)==almacenes.getIdAlmacen()){
                         console.log(" Existencias Eliminadas:  ",this.cantidadEliminada[key]);
-                        break;
+                        
                     }
+                    
                 }
+                
             }
         }else{console.log("Pertenece Almacen:  Ninguno")}
     }
