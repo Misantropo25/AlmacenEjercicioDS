@@ -2,9 +2,7 @@
 //--------------SECCION DE VARIABLES AUXILIARES---------------//
 
 //#region Variables de uso general
-let varIdProducto: number = 0;
-let varIdAlmacen: number = 0;
-let almacenActual: Almacen ; 
+
 //#endregion 
 
 
@@ -59,6 +57,7 @@ export class RegistroProductos{
     }
 
     mostrarListaProductos(){
+        console.log("");
         console.log("--------------------------------------------");
         console.log("PRODUCTOS REGISTRADOS")
         console.log("--------------------------------------------");
@@ -75,14 +74,15 @@ export let registroProductos: RegistroProductos = new RegistroProductos();
 
 //#region Clase Almacen
 export class Almacen{
-    private idAlmacen: number
+    static id: number = 0;
+    private idAlmacen:number;
     private nombre: string;
     private cantidadProductos: number;
     private productos: Producto[];
 
     constructor(nombre:string){
-        varIdAlmacen++;
-        this.idAlmacen = varIdAlmacen;
+        Almacen.id+=1;
+        this.idAlmacen=Almacen.id;
         this.nombre = nombre;
         this.cantidadProductos = 0;
         this.productos = [];
@@ -108,6 +108,7 @@ export class Almacen{
 
     //Metodos Muestra Info
     public mostrarInfoAlmacen(){
+        console.log("");
         console.log("--------------------------------------------");
         console.log("INFORMACION ALMACEN ", this.getNombreAlmacen().toUpperCase());
         console.log("--------------------------------------------");
@@ -118,6 +119,7 @@ export class Almacen{
     } 
 
     public mostrarProductos(){
+        console.log("");
         console.log("--------------------------------------------");
         if(this.productos.length == 0){console.log("Productos en Almacen:               Ninguno")}
         else {
@@ -138,16 +140,12 @@ export class Almacen{
     //Metodo Agregar-Eliminar-Mover-Reducir Producto
 
     public reducirSaldoProductoDeAlmacen(producto:Producto, cantidad:number){
-        for (let almacenes of registroAlmacenes.getListaAlmacenes()){
-            if(this.getIdAlmacen() == almacenes.getIdAlmacen()){
-                almacenActual = almacenes;
-            }
-        }
+        console.log();
         console.log("--------------------------------------------");
-        if (producto.mostrarCantidadDeProductoEnAlmacen(almacenActual)<cantidad || cantidad<0){console.log("La cantidad a retirar es invalida :c")}
+        if (producto.mostrarCantidadDeProductoEnAlmacen(this)<cantidad || cantidad<0){console.log("La cantidad a retirar es invalida :c")}
         else {
-            if(producto.mostrarCantidadDeProductoEnAlmacen(almacenActual)-cantidad==0){
-                producto.setCantidadParcial(0,almacenActual);
+            if(producto.mostrarCantidadDeProductoEnAlmacen(this)-cantidad==0){
+                producto.setCantidadParcial(0,this);
             }else{
 
             }
@@ -157,51 +155,48 @@ export class Almacen{
     }
 
     public moverProductoDeAlmacen(almacenDestino:Almacen, producto:Producto, cantidad: number){
-        let almacenEmisor: Almacen =  almacenDestino;
-        for (let value of registroAlmacenes.getListaAlmacenes()){
-            if (value.getIdAlmacen() == this.getIdAlmacen()){
-                almacenEmisor=value;
-                break;
-            }else{
-                continue;
-            }
-        }
-        if(producto.productoRegistradoEnAlmacen(almacenEmisor)){
-            if(producto.mostrarCantidadDeProductoEnAlmacen(almacenEmisor)>=cantidad && cantidad>0){
-                let value = producto.mostrarCantidadDeProductoEnAlmacen(almacenEmisor);
+        if(producto.productoRegistradoEnAlmacen(this)){
+            if(producto.mostrarCantidadDeProductoEnAlmacen(this)>=cantidad && cantidad>0){
+                let value = producto.mostrarCantidadDeProductoEnAlmacen(this);
                 value -= cantidad;
                 if(value==0){
                     for (let prod of this.productos){
                         if(producto == prod){
+                            console.log("");
                             console.log("--------------------------------------------");
-                            console.log(producto.getNombre(),"Eliminado del",almacenEmisor.getNombreAlmacen() ," por 0 existencias")
+                            console.log("Se movieron ",cantidad,"unidades del ",this.getNombreAlmacen(),"a el ",almacenDestino.getNombreAlmacen())
+                            console.log(producto.getNombre(),"Eliminado del",this.getNombreAlmacen() ," por 0 existencias")
                             this.cantidadProductos--;
                             let index = this.productos.indexOf(producto);
                             this.productos.splice(index,1);
-                            producto.setCantidadParcialMovimiento(0,almacenEmisor);
+                            producto.setCantidadParcialMovimiento(0,this);
                             break;
                         }else{
                             continue;
                         }
                     }
                 }else{
-                    producto.setCantidadParcialMovimiento(value,almacenEmisor);
+                    producto.setCantidadParcialMovimiento(value,this);
                 }
                 if(producto.productoRegistradoEnAlmacen(almacenDestino)){
                     producto.setCantidadParcial(cantidad,almacenDestino);
                 }else{
                     almacenDestino.setProductos(producto); 
                     producto.setCantidadParcial(cantidad, almacenDestino);
+                    console.log();
                     console.log("--------------------------------------------");
+                    console.log("Se movieron ",cantidad,"unidades del ",this.getNombreAlmacen(),"a el ",almacenDestino.getNombreAlmacen())
                     console.log(producto.getNombre(),"Añadido con exito a ", almacenDestino.getNombreAlmacen());
                     this.mostrarInfoAlmacen();
                     almacenDestino.mostrarInfoAlmacen();
                 }
             }else{
+                console.log("");
                 console.log("--------------------------------------------");
                 console.log("Cantidad Invalida")
             }
         }else{
+            console.log();
             console.log("--------------------------------------------");
             console.log("Producto no registrado en Almacen")
         }
@@ -209,13 +204,9 @@ export class Almacen{
 
     public eliminarProductoDeAlmacen(producto: Producto){
         let valorE: boolean = true;
-        for(let almacenes of registroAlmacenes.getListaAlmacenes()){
-            if(almacenes.getIdAlmacen() == this.getIdAlmacen()){
-                almacenActual = almacenes;
-            }
-        }
         for (let prod of this.productos){
             if(producto == prod){
+                console.log();
                 console.log("--------------------------------------------");
                 console.log(producto.getNombre(),"Eliminado del Almacen")
                 console.log(producto.getNombre(),"Existencias eliminadas perdidas")
@@ -223,7 +214,7 @@ export class Almacen{
                 let index = this.productos.indexOf(producto);
                 this.productos.splice(index,1);
                 valorE = false;
-                producto.eliminarExistenciasDeProducto(producto,almacenActual)
+                producto.eliminarExistenciasDeProducto(producto,this)
                 this.mostrarInfoAlmacen();
                 break;
             }else{
@@ -231,6 +222,7 @@ export class Almacen{
             }
         }
         if (valorE == true){
+            console.log("");
             console.log("--------------------------------------------");
             console.log("Producto No registrado en Almacen");
         }
@@ -241,6 +233,7 @@ export class Almacen{
         let valorE: boolean = true;
         for (let prod of this.productos){
             if(producto == prod){
+                console.log("");
                 console.log("--------------------------------------------");
                 console.log(producto.getNombre(),"Eliminado del Almacen")
                 console.log(producto.getNombre(),"Existencias regresadas al producto")
@@ -260,6 +253,7 @@ export class Almacen{
             }
         }
         if (valorE == true){
+            console.log("");
             console.log("--------------------------------------------");
             console.log("Producto No registrado en Almacen");
         }
@@ -268,6 +262,7 @@ export class Almacen{
 
     public aumentarSaldoProductoAlmacen(producto: Producto,cantidad: number){
         if (producto.cantidadDeProductoDisponible()>cantidad){
+            console.log("");
             console.log("--------------------------------------------");
             console.log(producto.getNombre(),"aumentaron existencias en ",cantidad, "en ",this.getNombreAlmacen());
             for(let almacenes of registroAlmacenes.getListaAlmacenes()){
@@ -280,6 +275,7 @@ export class Almacen{
             }
         }
         else{
+            console.log("");
             console.log("--------------------------------------------");
             console.log(producto.getNombre(),"No es posible aumentar las existencias del producto");
         }
@@ -291,6 +287,8 @@ export class Almacen{
 
 //#region Clase Producto
 export class Producto{
+    static id: number = 0;
+    
     private idProducto: number
     private nombre: string;
     private unidad: string;
@@ -299,8 +297,8 @@ export class Producto{
     private cantidadEliminada: {[idAlmacen:number] : number};
 
     constructor(nombre:string, unidad: string, cantidadTotal:number){
-        varIdProducto+=1;
-        this.idProducto=varIdProducto;
+        Producto.id+= 1;
+        this.idProducto=Producto.id;
         this.nombre = nombre;
         this.unidad = unidad;
         this.cantidadParcial = {};
@@ -325,6 +323,7 @@ export class Producto{
 
     // Metodos para mostrar informacion
     public mostrarInfoProductoTotal(){
+        console.log();
         console.log("--------------------------------------------");
         console.log("INFORMACION TOTAL PRODUCTO ", this.nombre);
         console.log("--------------------------------------------");
@@ -338,6 +337,7 @@ export class Producto{
     
     public mostrarInfoProductoPorAlmacen(almacen: Almacen){
         if(this.productoRegistradoEnAlmacen(almacen)){
+            console.log("");
             console.log("--------------------------------------------");
             console.log("Almacen:                ",almacen.getNombreAlmacen());
             console.log("Id Producto:            ", this.idProducto);
@@ -346,6 +346,7 @@ export class Producto{
             console.log("Existencias en Almacen: ", this.mostrarCantidadDeProductoEnAlmacen(almacen));
         }
         else{
+            console.log("");
             console.log("--------------------------------------------");
             console.log("PRODUCTO NO REGISTRADO EN ALMACEN: ",almacen.getNombreAlmacen());
             console.log("--------------------------------------------");
@@ -368,22 +369,27 @@ export class Producto{
             console.log("Esta/Estuvo en los siguientes Almacenes:")
             console.log(" ");
             for (let almacenes of registroAlmacenes.getListaAlmacenes()){
-                for (let index in this.cantidadParcial){
-                    console.log("Nombre: ",almacenes.getNombreAlmacen());
-                    if (almacenes.getIdAlmacen()==parseInt(index) ){
-                        
-                        console.log(" Existencias Disponibles: ",this.cantidadParcial[index]);
+                for(let par in this.cantidadParcial){
+                    for(let eli in this.cantidadEliminada){
+                        if(parseInt(par)==almacenes.getIdAlmacen() || parseInt(eli)==almacenes.getIdAlmacen()  ){
+                            console.log("Nombre: ",almacenes.getNombreAlmacen());
+                            break;
+                        }
                     }
-                    else console.log(" Existencias Disponibles: ",0);
- 
-                }   
-                for (let index in this.cantidadEliminada){
-                    if (almacenes.getIdAlmacen()==parseInt(index) ){
-                        console.log(" Existencias Eliminadas:  ",this.cantidadEliminada[index]);
-                    }else console.log(" Existencias Eliminadas:  ",0);
                 }
-               
-                
+                for(let key in this.cantidadParcial){
+                    if(parseInt(key)==almacenes.getIdAlmacen()){
+                        
+                        console.log(" Existencias Disponibles: ",this.cantidadParcial[key]);
+                        break;
+                    }
+                }
+                for(let key in this.cantidadEliminada){
+                    if(parseInt(key)==almacenes.getIdAlmacen()){
+                        console.log(" Existencias Eliminadas:  ",this.cantidadEliminada[key]);
+                        break;
+                    }
+                }
             }
         }else{console.log("Pertenece Almacen:  Ninguno")}
     }
@@ -467,11 +473,8 @@ export class Producto{
                     valorAnterior += cantidad;
                     delete this.cantidadParcial[almacen.getIdAlmacen()];
                     this.cantidadParcial[almacen.getIdAlmacen()] = valorAnterior;
-                    console.log("GAAAAAAAAAAAAAAAAAAAAAAA");
                     break;
-
                 }else{
-                    console.log("GAAAAAAAAAAAAAAAAAAAAAAA");
                 }
             }
         }else{
@@ -480,7 +483,7 @@ export class Producto{
         
     }
 
-    eliminarExistenciasDeProducto(producto: Producto, almacen:Almacen): number{
+    eliminarExistenciasDeProducto(producto: Producto, almacen:Almacen){ 
         let nuevoValor: number=0;
         if(this.productoRegistradoEnAlmacenesConExistenciasEliminadas(almacen)){
             for (let value in this.cantidadEliminada){
@@ -491,17 +494,15 @@ export class Producto{
                     delete this.cantidadEliminada[almacen.getIdAlmacen()];
                     this.cantidadEliminada[almacen.getIdAlmacen()] = nuevoValor;
                     this.cantidadParcial[almacen.getIdAlmacen()] = 0;
-                    delete this.cantidadParcial[almacen.getIdAlmacen()]
-                    return nuevoValor;
+                    delete this.cantidadParcial[almacen.getIdAlmacen()];
+                    break;
                 }
             }
-
         }else{
             this.cantidadEliminada[almacen.getIdAlmacen()] = this.cantidadParcial[almacen.getIdAlmacen()];
             delete this.cantidadParcial[almacen.getIdAlmacen()];
-            return this.cantidadParcial[almacen.getIdAlmacen()];
-        }
-        return 0;
+            
+        }  
     }
 
 
@@ -513,7 +514,8 @@ export class Producto{
                         let valorAnterior = this.cantidadParcial[key];
                         valorAnterior -= cantidad;
                         delete this.cantidadParcial[almacen.getIdAlmacen()];
-                        this.cantidadParcial[almacen.getIdAlmacen()] = valorAnterior;
+                        this.cantidadParcial[almacen.getIdAlmacen()] = cantidad;
+                        break
                     };
                 }
             }else{
@@ -525,7 +527,6 @@ export class Producto{
                 }
             }
         }else{
-            console.log("No llegamos :c");
             this.cantidadParcial[almacen.getIdAlmacen()] = cantidad;
         }
     }

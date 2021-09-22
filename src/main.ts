@@ -72,7 +72,14 @@ registroProductos.mostrarListaProductos();
 // agregarProductoAAlmacen(Producto02,Almacen02,21);
 
 
-// //Almacen01.regresarExistencias(Producto01);
+// Producto02.mostrarInfoProductoTotal();
+
+// Almacen01.regresarExistencias(Producto01);
+
+// agregarProductoAAlmacen(Producto01,Almacen02,21);
+// Producto01.mostrarInfoProductoTotal();
+// Producto01.agregarSaldoProducto(29);
+
 // console.log("ELIMINO PRODUCTO 1");
 // Almacen01.eliminarProductoDeAlmacen(Producto01);
 // console.log("AGREGO PRODUCTO 1");
@@ -106,13 +113,25 @@ registroProductos.mostrarListaProductos();
 
 // console.log("--------------------------------------------")
 // console.log("ELIMINO PRODUCTOS")
-// Almacen03.regresarExistencias(Producto01);
-// Almacen03.eliminarProductoDeAlmacen(Producto01);
-// Almacen03.eliminarProductoDeAlmacen(Producto02);
-// Almacen03.regresarExistencias(Producto01);
+// Almacen01.regresarExistencias(Producto01);
+// Almacen01.eliminarProductoDeAlmacen(Producto01);
+// Almacen01.eliminarProductoDeAlmacen(Producto02);
+// Almacen01.regresarExistencias(Producto01);
 
 
 // Producto01.mostrarInfoProductoTotal();
+
+agregarProductoAAlmacen(Producto03,Almacen01,15);
+
+
+Almacen01.moverProductoDeAlmacen(Almacen03,Producto03,12);
+Almacen01.moverProductoDeAlmacen(Almacen04,Producto03,2);
+Almacen01.regresarExistencias(Producto03);
+Almacen03.eliminarProductoDeAlmacen(Producto03);
+
+Producto03.mostrarInfoProductoTotal();
+
+
 //#endregion
 
 console.log("--------------------------------------------");
