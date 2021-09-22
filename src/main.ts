@@ -121,15 +121,17 @@ registroProductos.mostrarListaProductos();
 
 // Producto01.mostrarInfoProductoTotal();
 
-agregarProductoAAlmacen(Producto03,Almacen01,15);
+//PRUEBAS FINALES
+
+// agregarProductoAAlmacen(Producto03,Almacen01,15);
 
 
-Almacen01.moverProductoDeAlmacen(Almacen03,Producto03,12);
-Almacen01.moverProductoDeAlmacen(Almacen04,Producto03,2);
-Almacen01.regresarExistencias(Producto03);
-Almacen03.eliminarProductoDeAlmacen(Producto03);
+// Almacen01.moverProductoDeAlmacen(Almacen03,Producto03,12);
+// Almacen01.moverProductoDeAlmacen(Almacen04,Producto03,2);
+// Almacen01.regresarExistencias(Producto03);
+// Almacen03.eliminarProductoDeAlmacen(Producto03);
 
-Producto03.mostrarInfoProductoTotal();
+// Producto03.mostrarInfoProductoTotal();
 
 
 //#endregion
